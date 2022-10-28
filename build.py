@@ -1,7 +1,8 @@
 import glob
 import numpy as np
 
-from distutils.command.build_ext import build_ext
+from setuptools.command.build_ext import build_ext
+from setuptools.extension import Extension
 
 ext_modules = [
     Extension(
@@ -16,6 +17,7 @@ ext_modules = [
             "pymangle/stack.c",
             "pymangle/rand.c"
         ],
+        include_dirs=[np.get_include()]
     ),
 ]
 
@@ -29,13 +31,13 @@ class ExtBuilder(build_ext):
     def run(self):
         try:
             build_ext.run(self)
-        except (DistutilsPlatformError, FileNotFoundError):
+        except FileNotFoundError:
             raise BuildFailed('File not found. Could not compile C extension.')
 
     def build_extension(self, ext):
         try:
             build_ext.build_extension(self, ext)
-        except (CCompilerError, DistutilsExecError, DistutilsPlatformError, ValueError):
+        except ValueError:
             raise BuildFailed('Could not compile C extension.')
 
 
