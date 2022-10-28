@@ -7,9 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.6"
-numpy = ">=1.20.0"
+numpy = ">=1.10.0"
 
 
 [build-system]
+build = "build.py"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
